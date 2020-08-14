@@ -10,23 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_814_114_713) do
-  create_table 'event_store_events', id: :string, limit: 36, force: :cascade do |t|
-    t.string 'event_type', null: false
-    t.binary 'metadata'
-    t.binary 'data', null: false
-    t.datetime 'created_at', null: false
-    t.index ['created_at'], name: 'index_event_store_events_on_created_at'
-    t.index ['event_type'], name: 'index_event_store_events_on_event_type'
+ActiveRecord::Schema.define(version: 2020_08_14_123935) do
+
+  create_table "candidates", force: :cascade do |t|
+    t.string "uid", null: false
+    t.string "forename", null: false
+    t.string "surname", null: false
+    t.string "state", null: false
+    t.index ["forename", "surname"], name: "index_candidates_on_forename_and_surname"
   end
 
-  create_table 'event_store_events_in_streams', force: :cascade do |t|
-    t.string 'stream', null: false
-    t.integer 'position'
-    t.string 'event_id', limit: 36, null: false
-    t.datetime 'created_at', null: false
-    t.index ['created_at'], name: 'index_event_store_events_in_streams_on_created_at'
-    t.index %w[stream event_id], name: 'index_event_store_events_in_streams_on_stream_and_event_id', unique: true
-    t.index %w[stream position], name: 'index_event_store_events_in_streams_on_stream_and_position', unique: true
+  create_table "event_store_events", id: :string, limit: 36, force: :cascade do |t|
+    t.string "event_type", null: false
+    t.binary "metadata"
+    t.binary "data", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_event_store_events_on_created_at"
+    t.index ["event_type"], name: "index_event_store_events_on_event_type"
   end
+
+  create_table "event_store_events_in_streams", force: :cascade do |t|
+    t.string "stream", null: false
+    t.integer "position"
+    t.string "event_id", limit: 36, null: false
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_event_store_events_in_streams_on_created_at"
+    t.index ["stream", "event_id"], name: "index_event_store_events_in_streams_on_stream_and_event_id", unique: true
+    t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
+  end
+
 end

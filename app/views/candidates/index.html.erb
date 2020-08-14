@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Candidates</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>State</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @candidates.each do |candidate| %>
+      <tr>
+        <td><%= candidate.uid %></td>
+        <td><%= link_to candidate.forename + candidate.surname, candidate_path(candidate) %></td>
+        <td><%= candidate.state %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

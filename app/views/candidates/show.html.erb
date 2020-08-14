@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+<h1>Candidate: <%= @candidate.uid %></h1>
+<p>
+First name: <%= @candidate.forename %><br/>
+Last name: <%= @candidate.surname %><br />
+State: <%= @candidate.state %>
+</p>
+
+<br/>
+<%= link_to 'Back', candidates_path, class: "btn btn-default" %>

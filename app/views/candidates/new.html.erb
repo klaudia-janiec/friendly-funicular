@@ -1,0 +1,11 @@
+<h1>New Candidate</h1>
+
+<%= form_tag({ controller: "candidates", action: "create" }, method: "post") do %>
+  <%= hidden_field_tag(:candidate_id, @candidate_id) %>
+  
+  First name: <%= text_field_tag 'forename' %>
+  Last name : <%= text_field_tag 'surname' %>
+
+  <%= submit_tag("Create", class: "btn btn-primary") %>
+  <%= link_to 'Back', candidates_path, class: "btn btn-default" %>
+<% end %>
