@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_123935) do
+ActiveRecord::Schema.define(version: 2020_08_14_205245) do
 
   create_table "candidates", force: :cascade do |t|
     t.string "uid", null: false
     t.string "forename", null: false
     t.string "surname", null: false
     t.string "state", null: false
+    t.string "meetings"
     t.index ["forename", "surname"], name: "index_candidates_on_forename_and_surname"
   end
 

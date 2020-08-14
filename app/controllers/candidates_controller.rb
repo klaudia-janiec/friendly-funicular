@@ -26,13 +26,15 @@ class CandidatesController < ApplicationController
   end
 
   def schedule_meeting
-    command = Recruitment::SetMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
+    candidate = Candidates::Candidate.find_by(uid: params[:candidate_id])
+    command = Recruitment::ScheduleMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
     command_bus.call(command)
 
     head :ok
   end
 
   def cancel_meeting
+    candidate = Candidates::Candidate.find_by(uid: params[:candidate_id])
     command = Recruitment::CancelMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
     command_bus.call(command)
 
