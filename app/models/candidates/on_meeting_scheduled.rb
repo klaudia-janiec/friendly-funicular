@@ -3,9 +3,7 @@
 module Candidates
   class OnMeetingScheduled
     def call(event)
-      candidate = Candidate.find_by(uid: event[:candidate_id])
-      candidate.meetings += [event[:date]]
-      candidate.save!
+      Candidate.find_by(uid: event[:candidate_id]).update!(meetings: event[:meetings], state: event[:state])
     end
   end
 end

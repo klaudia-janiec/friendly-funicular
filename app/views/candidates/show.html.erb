@@ -1,10 +1,36 @@
-<p id="notice"><%= notice %></p>
-<h1>Candidate: <%= @candidate.uid %></h1>
-<p>
-First name: <%= @candidate.forename %><br/>
-Last name: <%= @candidate.surname %><br />
-State: <%= @candidate.state %>
+<h1><%= @candidate.forename + ' ' + @candidate.surname %></h1>
+
+<br/>
+
+<h5>State</h5>
+<%= @candidate.state %><br/>
+
+<br/>
+
+<h5>Meetings</h5>
+  <% if @candidate.meetings.any? %>
+    <table class="table">
+      <% @candidate.meetings.each do |meeting| %>
+        <tr>
+          <td><%= meeting %></td>
+          <td><%= link_to 'Delete', cancel_meeting_candidate_path(candidate_id: @candidate.uid, date: meeting), { method: :post, remote: true } %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    'No meetings'
+  <% end %>
 </p>
+
+<br/>
+
+<h5>Schedule meeting</h5>
+<%= form_tag({ controller: "candidates", action: "schedule_meeting" }, method: "post") do %>
+  <%= text_field_tag 'date' %>
+  <%= hidden_field_tag :candidate_id, @candidate.uid %>
+  <br/>
+  <%= submit_tag("Confirm", class: "btn btn-primary") %>
+<%end%>
 
 <br/>
 <%= link_to 'Back', candidates_path, class: "btn btn-default" %>

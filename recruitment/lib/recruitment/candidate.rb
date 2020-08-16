@@ -16,6 +16,7 @@ module Recruitment
       apply CandidateCreated.new(data:
         {
           candidate_id: id,
+          state: :new,
           forename: forename,
           surname: surname
         }
@@ -23,27 +24,33 @@ module Recruitment
     end
 
     def schedule_meeting(date)
-      raise MeetingAlreadyScheduled if meetings.include?(date)
+      raise MeetingAlreadyScheduled if meetings.include?(MeetingDate.new(date))
 
-      apply MeetingScheduled.new(data: { candidate_id: id, date: date })
+      new_state = :scheduled
+      new_meetings = meetings.map(&:date) + [date]
+      apply MeetingScheduled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings })
     end
 
     def cancel_meeting(date)
-      raise MeetingNotScheduled if meetings.exclude?(date)
+      raise MeetingNotScheduled if meetings.exclude?(MeetingDate.new(date))
 
-      apply MeetingCancelled.new(data: { candidate_id: id, date: date })
+      new_meetings = meetings.map(&:date) - [date]
+      new_state = new_meetings.empty? ? :cancelled : :scheduled
+      apply MeetingCancelled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings })
     end
 
     on CandidateCreated do |event|
-      self.state = :new
+      self.state = event.state
     end
 
     on MeetingScheduled do |event|
-      self.meetings += [event.date]
+      self.state = event.state
+      self.meetings = event.meetings.map { |date| MeetingDate.new(date) }
     end
 
     on MeetingCancelled do |event|
-      self.meetings -= [event.date]
+      self.state = event.state
+      self.meetings = event.meetings.map { |date| MeetingDate.new(date) }
     end
 
     private

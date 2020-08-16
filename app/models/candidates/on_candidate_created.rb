@@ -5,7 +5,7 @@ module Candidates
     def call(event)
       Candidate.create!(
         uid: event.data[:candidate_id],
-        state: :new,
+        state: event.data[:state],
         forename: event.data[:forename],
         surname: event.data[:surname]
       )

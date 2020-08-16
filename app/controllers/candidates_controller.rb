@@ -30,7 +30,7 @@ class CandidatesController < ApplicationController
     command = Recruitment::ScheduleMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
     command_bus.call(command)
 
-    head :ok
+    redirect_to candidate_path(candidate), notice: 'Candidate was successfully submitted.'
   end
 
   def cancel_meeting
@@ -38,6 +38,6 @@ class CandidatesController < ApplicationController
     command = Recruitment::CancelMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
     command_bus.call(command)
 
-    head :ok
+    redirect_to candidate_path(candidate), notice: 'Candidate was successfully submitted.'
   end
 end

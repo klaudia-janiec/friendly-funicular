@@ -3,6 +3,7 @@
 module Recruitment
   class MeetingScheduled < Event
     attribute :candidate_id, Types::UUID
-    attribute :date, Types::Nominal::Date
+    attribute :meetings, Types::Array.of(Types::Nominal::Date)
+    attribute :state, Types::Coercible::String
   end
 end
