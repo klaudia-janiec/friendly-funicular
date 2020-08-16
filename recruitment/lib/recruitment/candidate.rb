@@ -19,8 +19,7 @@ module Recruitment
           state: :new,
           forename: forename,
           surname: surname
-        }
-      )
+        })
     end
 
     def schedule_meeting(date)

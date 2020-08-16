@@ -6,6 +6,6 @@ module Recruitment
     attribute :forename, Types::Coercible::String
     attribute :surname, Types::Coercible::String
 
-    alias :aggregate_id :candidate_id
+    alias aggregate_id candidate_id
   end
 end

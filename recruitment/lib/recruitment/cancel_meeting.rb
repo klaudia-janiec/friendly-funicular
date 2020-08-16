@@ -5,6 +5,6 @@ module Recruitment
     attribute :candidate_id, Types::UUID
     attribute :date, Types::Nominal::Date
 
-    alias :aggregate_id :candidate_id
+    alias aggregate_id candidate_id
   end
 end

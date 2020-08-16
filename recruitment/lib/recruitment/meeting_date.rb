@@ -15,7 +15,7 @@ module Recruitment
     end
 
     def <=>(other)
-      self.date <=> other.date
+      date <=> other.date
     end
 
     private
