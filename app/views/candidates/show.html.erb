@@ -26,7 +26,7 @@
 
 <h5>Schedule meeting</h5>
 <%= form_tag({ controller: "candidates", action: "schedule_meeting" }, method: "post") do %>
-  <%= text_field_tag 'date' %>
+  <%= date_field_tag 'date' %>
   <%= hidden_field_tag :candidate_id, @candidate.uid %>
   <br/>
   <%= submit_tag("Confirm", class: "btn btn-primary") %>
