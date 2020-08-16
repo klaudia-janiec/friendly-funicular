@@ -10,15 +10,16 @@ gem 'bootstrap', '~> 5.0.0.alpha1'
 gem 'dry-struct'
 gem 'dry-types'
 gem 'jbuilder', '~> 2.7'
+gem 'pg', '~> 1.2.3'
 gem 'puma', '~> 4.1'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 gem 'rails_event_store', '~> 1.1.0'
 gem 'sass-rails', '>= 6'
-gem 'sqlite3', '~> 1.4'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
 
 group :development, :test do
+  gem 'dotenv', '~> 2.7.6'
   gem 'pry', '~> 0.13.1'
 end
 
