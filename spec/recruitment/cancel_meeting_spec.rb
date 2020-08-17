@@ -57,7 +57,7 @@ RSpec.describe 'Cancelling meeting' do
 
   context 'when there is no meeting on given date' do
     it 'raises proper error' do
-      expect { command_bus.call(command) }.to raise_error(Recruitment::Candidate::MeetingNotScheduled)
+      expect { command_bus.call(command) }.to raise_error(Recruitment::Errors::MeetingNotScheduled)
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe 'Cancelling meeting' do
     it 'raises proper error' do
       travel_back
       travel_to(Time.zone.local(2021, 1, 21)) do
-        expect { command_bus.call(command) }.to raise_error(Recruitment::MeetingDate::MeetingDateInPast)
+        expect { command_bus.call(command) }.to raise_error(Recruitment::Errors::MeetingDateInPast)
       end
     end
   end

@@ -35,7 +35,7 @@ RSpec.describe 'Scheduling meeting' do
     it 'raises proper error' do
       command_bus.call(command)
 
-      expect { command_bus.call(command) }.to raise_error(Recruitment::Candidate::MeetingAlreadyScheduled)
+      expect { command_bus.call(command) }.to raise_error(Recruitment::Errors::MeetingAlreadyScheduled)
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe 'Scheduling meeting' do
     let(:date) { '20-02-2020' }
 
     it 'raises proper error' do
-      expect { command_bus.call(command) }.to raise_error(Recruitment::MeetingDate::MeetingDateInPast)
+      expect { command_bus.call(command) }.to raise_error(Recruitment::Errors::MeetingDateInPast)
     end
   end
 end

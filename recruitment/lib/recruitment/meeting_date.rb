@@ -6,10 +6,8 @@ module Recruitment
 
     attr_reader :date
 
-    MeetingDateInPast = Class.new(StandardError)
-
     def initialize(date)
-      raise MeetingDateInPast if Date.parse(date).past?
+      raise Errors::MeetingDateInPast if Date.parse(date).past?
 
       self.date = date
     end

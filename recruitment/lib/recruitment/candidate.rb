@@ -4,9 +4,6 @@ module Recruitment
   class Candidate
     include AggregateRoot
 
-    MeetingAlreadyScheduled = Class.new(StandardError)
-    MeetingNotScheduled = Class.new(StandardError)
-
     def initialize(id)
       self.id = id
       self.meetings = []
@@ -23,19 +20,23 @@ module Recruitment
     end
 
     def schedule_meeting(date)
-      raise MeetingAlreadyScheduled if meetings.include?(MeetingDate.new(date))
+      meeting_date = MeetingDate.new(date)
+
+      raise Errors::MeetingAlreadyScheduled if meetings.include?(meeting_date)
 
       new_state = :scheduled
-      new_meetings = meetings.map(&:date) + [date]
-      apply MeetingScheduled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings })
+      new_meetings = meetings + [meeting_date]
+      apply MeetingScheduled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings.map(&:date) })
     end
 
     def cancel_meeting(date)
-      raise MeetingNotScheduled if meetings.exclude?(MeetingDate.new(date))
+      meeting_date = MeetingDate.new(date)
 
-      new_meetings = meetings.map(&:date) - [date]
+      raise Errors::MeetingNotScheduled if meetings.exclude?(meeting_date)
+
+      new_meetings = meetings.reject { |entry| entry == meeting_date }
       new_state = new_meetings.empty? ? :cancelled : :scheduled
-      apply MeetingCancelled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings })
+      apply MeetingCancelled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings.map(&:date) })
     end
 
     on CandidateCreated do |event|
