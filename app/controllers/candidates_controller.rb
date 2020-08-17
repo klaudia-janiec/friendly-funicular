@@ -33,11 +33,9 @@ class CandidatesController < ApplicationController
 
     redirect_to candidate_path(candidate), notice: 'Candidate was successfully submitted.'
   rescue Recruitment::Candidate::MeetingAlreadyScheduled, Recruitment::MeetingDate::MeetingDateInPast => e
-    redirect_to candidate_path(candidate), notice: e.class.name.demodulize.underscore.humanize
+    redirect_to candidate_path(candidate), flash: { error: e.class.name.demodulize.underscore.humanize }
   end
-  # rubocop:enable Metrics/AbcSize
 
-  # rubocop:disable Metrics/AbcSize
   def cancel_meeting
     candidate = Candidates::Candidate.find_by(uid: params[:candidate_id])
     command = Recruitment::CancelMeeting.new(candidate_id: params[:candidate_id], date: params[:date])
@@ -45,7 +43,7 @@ class CandidatesController < ApplicationController
 
     redirect_to candidate_path(candidate), notice: 'Candidate was successfully submitted.'
   rescue Recruitment::Candidate::MeetingNotScheduled, Recruitment::MeetingDate::MeetingDateInPast => e
-    redirect_to candidate_path(candidate), notice: e.class.name.demodulize.underscore.humanize
+    redirect_to candidate_path(candidate), flash: { error: e.class.name.demodulize.underscore.humanize }
   end
   # rubocop:enable Metrics/AbcSize
 end

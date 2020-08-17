@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <% flash.each do |type, msg| %>
-        <div class="alert alert-info">
+        <div class="<%= "alert alert-#{type == 'error' ? 'danger' : 'info'}" %>">
           <%= msg %>
         </div>
       <% end %>
