@@ -9,7 +9,7 @@
 
 <h5>Meetings</h5>
   <% if @candidate.meetings.any? %>
-    <table class="table">
+    <table class='table'>
       <% @candidate.meetings.each do |meeting| %>
         <tr>
           <td><%= meeting %></td>
@@ -25,12 +25,12 @@
 <br/>
 
 <h5>Schedule meeting</h5>
-<%= form_tag({ controller: "candidates", action: "schedule_meeting" }, method: "post") do %>
+<%= form_tag({ controller: 'candidates', action: 'schedule_meeting' }, method: 'post') do %>
   <%= date_field_tag 'date' %>
   <%= hidden_field_tag :candidate_id, @candidate.uid %>
   <br/>
-  <%= submit_tag("Confirm", class: "btn btn-primary") %>
+  <%= submit_tag('Confirm', class: 'btn btn-primary') %>
 <%end%>
 
 <br/>
-<%= link_to 'Back', candidates_path, class: "btn btn-default" %>
+<%= link_to 'Back', candidates_path, class: 'btn btn-default' %>

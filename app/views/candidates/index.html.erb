@@ -1,6 +1,6 @@
 <h1>Candidates</h1>
 
-<table class="table">
+<table class='table'>
   <thead>
     <tr>
       <th>Name</th>
@@ -17,3 +17,6 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to 'New candidate', new_candidate_path, class: 'btn btn-primary' %><br/>
+<%= link_to 'Back', candidates_path, class: "btn btn-default" %>
