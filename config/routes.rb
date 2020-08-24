@@ -11,4 +11,6 @@ Rails.application.routes.draw do
       post :accept_candidate
     end
   end
+
+  root 'candidates#index'
 end
