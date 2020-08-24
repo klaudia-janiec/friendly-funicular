@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     member do
       post :schedule_meeting
       post :cancel_meeting
+      post :accept_offer
+      post :accept_candidate
     end
   end
 end

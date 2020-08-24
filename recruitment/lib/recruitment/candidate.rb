@@ -39,6 +39,27 @@ module Recruitment
       apply MeetingCancelled.new(data: { candidate_id: id, state: new_state, meetings: new_meetings.map(&:date) })
     end
 
+    def accept_offer
+      raise Errors::CandidateAlreadyHired if state == 'hired'
+      raise Errors::OfferAlreadyAccepted if state == 'offer_accepted'
+
+      apply OfferAccepted.new(data: { candidate_id: id, state: :offer_accepted })
+    end
+
+    def accept_candidate
+      raise Errors::CandidateAlreadyHired if state == 'hired'
+      raise Errors::CandidateAlreadyAccepted if state == 'candidate_accepted'
+
+      apply CandidateAccepted.new(data: { candidate_id: id, state: :candidate_accepted })
+    end
+
+    def hire
+      raise Errors::InvalidCandidateState if %w[offer_accepted candidate_accepted].exclude?(state)
+      raise Errors::CandidateAlreadyHired if state == 'hired'
+
+      apply CandidateHired.new(data: { candidate_id: id, state: :hired })
+    end
+
     on CandidateCreated do |event|
       self.state = event.state
     end
@@ -51,6 +72,18 @@ module Recruitment
     on MeetingCancelled do |event|
       self.state = event.state
       self.meetings = event.meetings.map { |date| MeetingDate.new(date) }
+    end
+
+    on OfferAccepted do |event|
+      self.state = event.state
+    end
+
+    on CandidateAccepted do |event|
+      self.state = event.state
+    end
+
+    on CandidateHired do |event|
+      self.state = event.state
     end
 
     private

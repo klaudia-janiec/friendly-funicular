@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CandidatesController < ApplicationController
-  around_action :rescue_recruitment_errors, ony: %i[schedule_meeting cancel_meeting]
+  around_action :rescue_recruitment_errors, ony: %i[schedule_meeting cancel_meeting accept_offer accept_candidate]
 
   def index
     @candidates = Candidates::Candidate.all
@@ -41,6 +41,22 @@ class CandidatesController < ApplicationController
     command_bus.call(command)
 
     redirect_to candidate_path(@candidate), notice: 'Candidate was successfully submitted.'
+  end
+
+  def accept_offer
+    @candidate = Candidates::Candidate.find_by(uid: params[:candidate_id])
+    command = Recruitment::AcceptOffer.new(candidate_id: params[:candidate_id])
+    command_bus.call(command)
+
+    redirect_to candidate_path(@candidate), notice: 'Candidate accepted job offer.'
+  end
+
+  def accept_candidate
+    @candidate = Candidates::Candidate.find_by(uid: params[:candidate_id])
+    command = Recruitment::AcceptCandidate.new(candidate_id: params[:candidate_id])
+    command_bus.call(command)
+
+    redirect_to candidate_path(@candidate), notice: 'Employer accepted candidate.'
   end
 
   private

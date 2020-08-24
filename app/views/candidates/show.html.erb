@@ -32,5 +32,13 @@
   <%= submit_tag('Confirm', class: 'btn btn-primary') %>
 <%end%>
 
+<br />
+
+<% unless @candidate.state == 'hired' %>
+  <h5>Actions</h5>
+  <%= link_to 'Candidate accepts offer', accept_offer_candidate_path(candidate_id: @candidate.uid), { method: :post, remote: true, class: 'btn btn-primary' } %>
+  <%= link_to 'Accept candidate', accept_candidate_candidate_path(candidate_id: @candidate.uid), { method: :post, remote: true, class: 'btn btn-primary' } %>
+<%end%>
+
 <br/>
 <%= link_to 'Back', candidates_path, class: 'btn btn-default' %>
