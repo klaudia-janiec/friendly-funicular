@@ -2,7 +2,7 @@
 
 module Recruitment
   class Candidate
-    include AggregateRoot
+    include MyAggregateRoot
 
     def initialize(id)
       self.id = id
